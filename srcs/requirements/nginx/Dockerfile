@@ -18,6 +18,7 @@ RUN apt-get update \
 # fin phppppp
 
 RUN mkdir /etc/nginx/ssl
+RUN chmod 755 -R /etc/nginx/ssl
 RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=./O=42/CN=ldermign.42.fr" -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 
 RUN rm /var/www/html/index.nginx-debian.html
@@ -29,13 +30,16 @@ COPY ./requirements/info.php /var/www/html/
 # RUN cp ../../config.inc.php /var/www/html/phpmyadmin/
 
 # RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN chown -R www-data:www-data /var/www/html/*
-RUN chmod 755 -R /var/www/*
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod 755 -R /var/www
 
 # Remove the default Nginx configuration file and add cert directory
 RUN rm -v /etc/nginx/nginx.conf
+RUN rm /etc/nginx/sites-available/default
+RUN rm /etc/nginx/sites-enabled/default
 # Add nginx config file
 COPY ./requirements/nginx.conf /etc/nginx/
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 RUN service nginx start
 
