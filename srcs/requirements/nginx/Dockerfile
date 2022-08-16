@@ -27,13 +27,12 @@ RUN chmod 755 -R /var/www
 
 # Remove the default Nginx configuration file and add cert directory
 RUN rm -v /etc/nginx/nginx.conf
-RUN rm /etc/nginx/sites-available/default
-RUN rm /etc/nginx/sites-enabled/default
+# RUN rm /etc/nginx/sites-available/default
+# RUN rm /etc/nginx/sites-enabled/default
+
 # Add nginx config file
 COPY ./requirements/nginx.conf /etc/nginx/
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-RUN service nginx start
+# RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 EXPOSE 443
 
@@ -45,9 +44,9 @@ EXPOSE 443
 # RUN mkdir -p /run/nginx
 # COPY ./requirements/nginx.conf /etc/nginx/conf.d/default.conf
 
-# # RUN service nginx start
+RUN service nginx start
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 # docker build -t nginx_test .
 # docker images
