@@ -2,44 +2,39 @@ version: '3.2'
 # version du docker-compose qu'on souhaite utiliser
 
 services:
-  # mariadb:
-  #   container_name: mariadb
+  mariadb:
+    container_name: mariadb
+    env_file:
+      - ../../.env
+    build:
+      context: ./requirements/mariadb/
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/ldermign/data:/var/lib/mysql
+    restart: unless-stopped
+  # wordpress:
+  #   container_name: wordpress
   #   # env_file:
   #   #   - ../../.env
   #   build:
-  #     context: ./requirements/mariadb/
-  #   ports:
-  #     - "3306:3306"
+  #     context: ./requirements/wordpress/
   #   volumes:
-  #     - /data/mysql:/var/lib/mysql
+  #     - /data/html:/var/www/html
+  #   # depends_on:
+  #   #   - mysql
   #   environment:
+  #     WORDPRESS_DB_HOST: mysql
   #     MYSQL_ROOT_PASSWORD: mysqlrootmdp
-  #     MYSQL_DATABASE: nomdatabase
-  #     MYSQL_USER: usernom
-  #     MYSQL_PASSWORD: usermdp
+  #     WORDPRESS_DB_NAME: nomdatabase
+  #     WORDPRESS_DB_USER: usernom
+  #     WORDPRESS_DB_PASSWORD: usermdp
+  #     WORDPRESS_TABLE_PREFIX: wp_
+  #   ports:
+  #     - "9000:9000"
+  #   # depends_on:
+  #   #   - mariadb
   #   restart: unless-stopped
-  wordpress:
-    container_name: wordpress
-    # env_file:
-    #   - ../../.env
-    build:
-      context: ./requirements/wordpress/
-    volumes:
-      - /data/html:/var/www/html
-    # depends_on:
-    #   - mysql
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      MYSQL_ROOT_PASSWORD: mysqlrootmdp
-      WORDPRESS_DB_NAME: nomdatabase
-      WORDPRESS_DB_USER: usernom
-      WORDPRESS_DB_PASSWORD: usermdp
-      WORDPRESS_TABLE_PREFIX: wp_
-    ports:
-      - "9000:9000"
-    # depends_on:
-    #   - mariadb
-    restart: unless-stopped
   nginx:
     container_name: nginx
     # env_file:
