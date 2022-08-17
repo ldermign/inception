@@ -14,11 +14,13 @@ RUN echo "GRANT ALL ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFI
 RUN echo "FLUSH PRIVILEGES;" | mysql -u root
 
 # 
-RUN sudo userdel mysql
-RUN sudo useradd -u 999 mysql
+# RUN sudo userdel mysql
+# RUN sudo useradd -u 999 mysql
 
-# 
+# # 
 RUN sudo mkdir -p /data/mysql
 RUN sudo chown -R mysql:mysql /data/mysql
 
 EXPOSE 3306
+
+CMD ["mysqld"]
