@@ -5,7 +5,7 @@ services:
   mariadb:
     container_name: mariadb
     env_file:
-      - ../../.env
+      - ./.env
     build:
       context: ./requirements/mariadb/
     ports:
