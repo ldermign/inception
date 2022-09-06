@@ -25,8 +25,10 @@ RUN service mysql start
 # # RUN sudo mkdir -p /data/mysql
 # # RUN sudo chown -R mysql:mysql /data/mysql
 
-COPY ./requirements/start_mysql.sh /tmp/
+COPY ./requirements/start_mysql.sql /tmp/
+
+RUN service mysql start && mysql < /tmp/start_mysql.sql
 
 EXPOSE 3306
 
-CMD ["/bin/bash", "/tmp/start_mysql.sh"]
+CMD ["bash"]
