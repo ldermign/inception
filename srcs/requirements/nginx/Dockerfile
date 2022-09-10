@@ -23,7 +23,7 @@ COPY ./requirements/info.php /var/www/html/
 
 # RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN chown -R www-data:www-data /var/www/html
-RUN chmod 755 -R /var/www
+RUN chmod 755 -R /var/www/html
 
 # Remove the default Nginx configuration file and add cert directory
 RUN rm -v /etc/nginx/nginx.conf
@@ -36,13 +36,13 @@ COPY ./requirements/nginx.conf /etc/nginx/
 
 EXPOSE 443
 
-# # nginx SSL
-# RUN mkdir /etc/nginx/ssl
-# RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=./O=42/CN=ldermign.42.fr" -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+	# # nginx SSL
+	# RUN mkdir /etc/nginx/ssl
+	# RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=./O=42/CN=ldermign.42.fr" -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 
-# # nginx config
-# RUN mkdir -p /run/nginx
-# COPY ./requirements/nginx.conf /etc/nginx/conf.d/default.conf
+	# # nginx config
+	# RUN mkdir -p /run/nginx
+	# COPY ./requirements/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN service nginx start
 
