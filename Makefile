@@ -25,8 +25,5 @@ restart: ## Restart all or c=<name> containers
 logs: ## Show logs for all or c=<name> containers
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f $(c)
 
-# clean: ## Clean all data
-# 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down
-
-clean_all: ## Clean all images
-	bash ./srcs/clean_all.sh
+clean: ## Clean all images
+	bash ./srcsrequirements/tools/clean_all.sh
