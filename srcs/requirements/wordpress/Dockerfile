@@ -7,7 +7,8 @@ RUN apt-get update -y \
     && apt-get -y install wget \
     && apt-get -y install php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline php7.3-mbstring
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/
+RUN mkdir wordpress
 
 RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.1/phpMyAdmin-5.0.1-english.tar.gz
 RUN tar -xf phpMyAdmin-5.0.1-english.tar.gz && rm -rf phpMyAdmin-5.0.1-english.tar.gz
@@ -20,17 +21,10 @@ RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
 # allow root
 RUN chown -R root:root /var/www/wordpress
 
-# RUN service php7.3-fpm start
-# RUN service mysql start
+# delete wp-config file base
+RUN rm /var/www/wordpress/wp-config-sample.php
 
-# # Configure a wordpress database
-# RUN echo "CREATE DATABASE wordpress;" | mysql -u root
-# RUN echo "CREATE USER 'utilisateur'@'%';" | mysql -u root
-# RUN echo "GRANT ALL ON wordpress.* TO 'utilisateur'@'%' WITH GRANT OPTION;" | mysql -u root
-# RUN echo "FLUSH PRIVILEGES;" | mysql -u root
-
-# RUN rm /var/www/html/wordpress/wp-config-sample.php
-# COPY ./srcs/requirements/wordpress/conf/wp-config.php /var/www/html/wordpress/
-
+# add new config file
+COPY ./wp-config.php /var/www/wordpress/
 
 EXPOSE 9000
