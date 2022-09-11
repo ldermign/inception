@@ -1,0 +1,73 @@
+version: '3.2'
+# version du docker-compose qu'on souhaite utiliser
+
+services:
+  mariadb:
+    container_name: mariadb
+    env_file:
+      - ./.env
+    build:
+      context: ./requirements/mariadb/
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/ldermign/data:/var/lib/mysql
+    restart: unless-stopped
+  # wordpress:
+  #   container_name: wordpress
+  #   # env_file:
+  #   #   - ../../.env
+  #   build:
+  #     context: ./requirements/wordpress/
+  #   volumes:
+  #     - /data/html:/var/www/html
+  #   # depends_on:
+  #   #   - mysql
+  #   environment:
+  #     WORDPRESS_DB_HOST: mysql
+  #     MYSQL_ROOT_PASSWORD: mysqlrootmdp
+  #     WORDPRESS_DB_NAME: nomdatabase
+  #     WORDPRESS_DB_USER: usernom
+  #     WORDPRESS_DB_PASSWORD: usermdp
+  #     WORDPRESS_TABLE_PREFIX: wp_
+  #   ports:
+  #     - "9000:9000"
+  #   # depends_on:
+  #   #   - mariadb
+  #   restart: unless-stopped
+  nginx:
+    container_name: nginx
+    # env_file:
+    #   - ../../.env
+    build:
+      context: ./requirements/nginx/
+    ports:
+      - "443:443"
+    restart: unless-stopped
+
+
+
+
+
+
+# arguments...
+# services:
+# definition d'un conteneur
+# build:
+# chercher le Dokerfile qui va construire l'image qui va faire tourner le container
+# networks:
+# a quel reseau le container doit appartenir
+# image:
+# description du conteneur : c'est une image docker ici
+# or, on veut creer a partir d'un docker file, donc on va utiliser build
+# container_name:
+# le nom du container
+# restart:
+# fonction qui specifie ce que doit faire le container s'il crash
+# volumes:
+# fichier sur le disque qui va etre monte sur un fichier du container.
+# C'est similaire a un dossier partage.  
+# syntaxe -> {PATH_TO_DISK_FOLDER}:{PATH_TO_CONTAINER_FOLDER}:PERMISSIONS (:ro, :rw...) (pas obligatoire)
+# depends_on:
+# assure qu'un container est construit avant un autre
+# utile pour wordpress qui a besoin d'une database (mariadb) pour fonctionner
