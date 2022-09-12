@@ -13,8 +13,8 @@ COPY ./conf/my.cnf etc/mysql/mariadb.conf.d/
 
 COPY ./conf/start_mysql.sql /tmp/
 
-RUN service mysql start && mysql < /tmp/start_mysql.sql
+# RUN service mysql start && mysql < /tmp/start_mysql.sql
 
 EXPOSE 3306
 
-CMD ["bash"]
+CMD ["bash", "/tmp/start_mysql.sql"]
