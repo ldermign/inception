@@ -4,6 +4,8 @@ version: '3.2'
 services:
   mariadb:
     container_name: mariadb
+    networks:
+      - inception
     env_file:
       - ./.env
     build:
@@ -11,40 +13,58 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /home/ldermign/data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: unless-stopped
-  # wordpress:
-  #   container_name: wordpress
-  #   # env_file:
-  #   #   - ../../.env
-  #   build:
-  #     context: ./requirements/wordpress/
-  #   volumes:
-  #     - /data/html:/var/www/html
-  #   # depends_on:
-  #   #   - mysql
-  #   environment:
-  #     WORDPRESS_DB_HOST: mysql
-  #     MYSQL_ROOT_PASSWORD: mysqlrootmdp
-  #     WORDPRESS_DB_NAME: nomdatabase
-  #     WORDPRESS_DB_USER: usernom
-  #     WORDPRESS_DB_PASSWORD: usermdp
-  #     WORDPRESS_TABLE_PREFIX: wp_
-  #   ports:
-  #     - "9000:9000"
-  #   # depends_on:
-  #   #   - mariadb
-  #   restart: unless-stopped
+  wordpress:
+    container_name: wordpress
+    networks:
+      - inception
+    env_file:
+      - ./.env
+    build:
+      context: ./requirements/wordpress/
+    volumes:
+      - wordpress:/var/www/wordpress/
+    depends_on:
+      - mariadb
+    ports:
+      - "9000:9000"
+    # depends_on:
+    #   - mariadb
+    restart: unless-stopped
   nginx:
     container_name: nginx
-    # env_file:
-    #   - ../../.env
+    networks:
+      - inception
+    env_file:
+      - ./.env
     build:
       context: ./requirements/nginx/
+    volumes:
+      - wordpress:/var/www/wordpress/
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     restart: unless-stopped
 
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/Downloads/mariadb
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/Downloads/wordpress
+
+networks:
+    inception:
+      driver: bridge
 
 
 

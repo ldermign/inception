@@ -4,12 +4,12 @@ RUN apt-get update \
     && apt-get install -y apt-utils \
     && apt-get upgrade -y \
     && apt-get update \
-    && apt-get -y install vim \
+    && apt-get -y install vim -y \
     && apt-get -y install wget \
     && apt-get -y install openssl \
-    && apt-get -y install nginx
+    && apt-get -y install nginx -y
 
-RUN mkdir /etc/nginx/ssl
+RUN mkdir -p /etc/nginx/ssl
 RUN chmod 755 -R /etc/nginx/ssl
 RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=./O=42/CN=ldermign.42.fr" -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 
@@ -22,8 +22,8 @@ COPY ./requirements/info.php /var/www/html/
 # RUN cp ../../config.inc.php /var/www/html/phpmyadmin/
 
 # RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN chown -R www-data:www-data /var/www/html
 RUN chmod 755 -R /var/www/html
+RUN chown -R www-data:www-data /var/www/html
 
 # Remove the default Nginx configuration file and add cert directory
 RUN rm -v /etc/nginx/nginx.conf
@@ -44,9 +44,9 @@ EXPOSE 443
 	# RUN mkdir -p /run/nginx
 	# COPY ./requirements/nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN service nginx start
+# RUN service nginx start
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 
 # docker build -t nginx_test .
 # docker images
