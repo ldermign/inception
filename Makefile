@@ -26,4 +26,4 @@ logs: ## Show logs for all or c=<name> containers
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f $(c)
 
 clean: ## Clean all images
-	bash ./srcsrequirements/tools/clean_all.sh
+	bash ./srcs/requirements/tools/clean_all.sh
