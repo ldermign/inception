@@ -1,10 +1,13 @@
 FROM debian:buster-slim
 
+EXPOSE 9000
+
 # download php
 RUN apt-get update -y \
     && apt-get install -y apt-utils \
     && apt-get upgrade -y \
     && apt-get -y install wget \
+    && apt-get install -y mariadb-client \
     && apt-get -y install php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline php7.3-mbstring php-fpm php-mysql
 
 WORKDIR /var/www/
@@ -25,7 +28,7 @@ RUN tar -xvzf latest.tar.gz && rm -rf latest.tar.gz
 RUN chown -R root:root /var/www/wordpress
 
 # delete wp-config file base
-RUN rm /var/www/wordpress/wp-config-sample.php
+# RUN rm /var/www/wordpress/wp-config.php
 # add new config file
 COPY ./tools/wp-config.php /var/www/wordpress/
 
@@ -43,5 +46,3 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 COPY ./tools/set_config_wp.sh /tmp/
 
 ENTRYPOINT ["bash", "/tmp/set_config_wp.sh"]
-
-EXPOSE 9000
