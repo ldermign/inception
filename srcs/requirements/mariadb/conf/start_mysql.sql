@@ -4,5 +4,5 @@ mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_ADMIN}\`@'localhost' IDENTIFIED BY
 mysql -e "GRANT ALL PRIVILEGES ON *.* TO \`${MYSQL_ADMIN}\`@'%' IDENTIFIED BY '${MYSQL_ADMIN_PSWD} WITH GRANT OPTION;"
 mysql -e "FLUSH PRIVILEGES;"
 
-mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
+mysqladmin -u root -p$MYSQL_ROOT_PASSWORD shutdown
 exec mysqld_safe

@@ -2,6 +2,36 @@ version: '3.2'
 # version du docker-compose qu'on souhaite utiliser
 
 services:
+  nginx:
+    container_name: nginx
+    networks:
+      - inception
+    env_file:
+      - ./.env
+    build:
+      context: ./requirements/nginx/
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    restart: always
+  wordpress:
+    container_name: wordpress
+    networks:
+      - inception
+    env_file:
+      - ./.env
+    build:
+      context: ./requirements/wordpress/
+    volumes:
+      - wordpress:/var/www/wordpress
+    depends_on:
+      - mariadb
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
   mariadb:
     container_name: mariadb
     networks:
@@ -15,56 +45,24 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
     restart: unless-stopped
-  wordpress:
-    container_name: wordpress
-    networks:
-      - inception
-    env_file:
-      - ./.env
-    build:
-      context: ./requirements/wordpress/
-    volumes:
-      - wordpress:/var/www/wordpress/
-    depends_on:
-      - mariadb
-    ports:
-      - "9000:9000"
-    # depends_on:
-    #   - mariadb
-    restart: unless-stopped
-  nginx:
-    container_name: nginx
-    networks:
-      - inception
-    env_file:
-      - ./.env
-    build:
-      context: ./requirements/nginx/
-    volumes:
-      - wordpress:/var/www/wordpress/
-    depends_on:
-      - wordpress
-    ports:
-      - "443:443"
-    restart: unless-stopped
 
 volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/ldermign/data/wordpress'
   mariadb:
     driver: local
     driver_opts:
-      type: none
-      o: bind
-      device: ~/Downloads/mariadb
-  wordpress:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ~/Downloads/wordpress
+      type: 'none'
+      o: 'bind'
+      device: '/home/ldermign/data/mariadb'
 
 networks:
-    inception:
-      driver: bridge
+  inception:
+    driver: bridge
 
 
 
