@@ -24,7 +24,7 @@ COPY conf/info.php /var/www/html/
 
 
 # RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-RUN chmod 755 -R /var/www/html
+RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 	# # nginx SSL
