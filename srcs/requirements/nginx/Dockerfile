@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-slim
 
 EXPOSE 443
 
@@ -18,7 +18,7 @@ RUN openssl req -x509 -nodes -days 365 -subj "/C=FR/ST=./O=42/CN=ldermign.42.fr"
 
 # RUN rm /var/www/html/index.nginx-debian.html
 RUN mkdir -p /var/run/nginx
-# RUN rm -v /etc/nginx/nginx.conf
+RUN rm -v /etc/nginx/nginx.conf
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY conf/info.php /var/www/html/
 

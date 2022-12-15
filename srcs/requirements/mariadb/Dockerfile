@@ -6,12 +6,13 @@ RUN apt-get update -y \
 	&& apt-get upgrade -y \
     && apt-get install -y apt-utils \
     && apt-get install -y mariadb-client \
-    && apt-get install -y mariadb-server 
+    && apt-get install -y mariadb-server \
+    procps
 
 RUN service mysql start
 
-RUN rm -rf /var/run/mysql
-RUN mkdir /var/run/mysql
+# RUN rm -rf /var/run/mysql
+RUN mkdir -p /var/run/mysql
 RUN chmod 755 -R /var/run/mysql
 
 # RUN rm etc/mysql/mariadb.conf.d/my.cnf
