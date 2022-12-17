@@ -42,7 +42,9 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 #  delete wp-config file base - no such file ??
 # RUN rm /var/www/wordpress/wp-config.php
 # add new config file
-COPY tools/setup-config.php /var/www/wordpress/setup-config.php 
+
+COPY tools/wp-config.php /var/www/wordpress/wp-config.php
+
 # mv wp-cli.phar /usr/local/bin/wp
 
 COPY ./tools/set_config_wp.sh /tmp/

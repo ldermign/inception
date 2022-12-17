@@ -2,21 +2,20 @@ version: '3.7'
 # version du docker-compose qu'on souhaite utiliser
 
 services:
-  nginx:
-    container_name: nginx
+  mariadb:
+    container_name: mariadb
     networks:
       - inception
     env_file:
       - ./.env
     build:
-      context: ./requirements/nginx/
-    volumes:
-      - wordpress:/var/www/wordpress/
-    depends_on:
-      - wordpress
+      context: ./requirements/mariadb/
     ports:
-      - "443:443"
-    restart: always
+      - "3306:3306"
+    volumes:
+      # - mariadb:/var/lib/mysql
+      - mariadb:/data/mariadb/
+    restart: unless-stopped
   wordpress:
     container_name: wordpress
     networks:
@@ -32,20 +31,21 @@ services:
     ports:
       - "9000:9000"
     restart: unless-stopped
-  mariadb:
-    container_name: mariadb
+  nginx:
+    container_name: nginx
     networks:
       - inception
     env_file:
       - ./.env
     build:
-      context: ./requirements/mariadb/
-    ports:
-      - "3306:3306"
+      context: ./requirements/nginx/
     volumes:
-      # - mariadb:/var/lib/mysql
-      - mariadb:/data/mariadb/
-    restart: unless-stopped
+      - wordpress:/var/www/wordpress/
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    restart: always
 
 volumes:
   wordpress:
