@@ -30,7 +30,7 @@ logs: ## Show logs for all or c=<name> containers
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f $(c)
 
 clean: ## Clean all images and volumes
-	sudo rm -rf ${VOLUME_FILE}/mariadb 
+	sudo rm -rf ${VOLUME_FILE}/mariadb
 	sudo rm -rf ${VOLUME_FILE}/wordpress
 	sudo $(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down -v
 	bash ./srcs/requirements/tools/clean_all.sh
