@@ -20,19 +20,19 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv('MYSQL_DATABASE') );
+define( 'DB_NAME', 'InfoMySql' );
 
 /** MySQL database username */
-define( 'DB_USER', getenv('MYSQL_USER') );
+define( 'DB_USER', 'Jacqueline' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', getenv('MYSQL_USER_PSWD') );
+define( 'DB_PASSWORD', 'Motdepasse42' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'mariadb:3306' );
 
 /** Database Charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8-sans' );
+define( 'DB_CHARSET', 'utf8' );
 
 /** The Database Collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
@@ -84,6 +84,7 @@ define( 'WP_DEBUG', false );
 /** Absolute path to the WordPress directory. */
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
+	// define( 'ABSPATH', "/var/www/wordpress" . '/' );
 }
 
 /** Sets up WordPress vars and included files. */

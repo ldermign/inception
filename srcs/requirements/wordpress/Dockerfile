@@ -1,12 +1,13 @@
 FROM debian:buster-slim
 
-# EXPOSE 9000
+EXPOSE 9000
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # download php
 RUN apt-get update -y \
     && apt-get upgrade -y \
+    && apt-get install sendmail -y \
     && apt-get -y install wget \
     && apt-get install -y mariadb-client \
     && apt-get -y install php7.3 php7.3-fpm php7.3-mysql php-common php7.3-cli php7.3-common php7.3-json php7.3-opcache php7.3-readline php7.3-mbstring php-fpm php-mysql
@@ -49,6 +50,6 @@ COPY tools/wp-config.php /var/www/wordpress/wp-config.php
 
 COPY ./tools/set_config_wp.sh /tmp/
 
-# WORKDIR /var/www/wordpress
+WORKDIR /var/www/wordpress
 
 ENTRYPOINT ["bash", "/tmp/set_config_wp.sh"]

@@ -9,8 +9,8 @@ VOLUME_FILE			= /home/ldermign/data
 c					= start container
 
 up: ## Start all or c=<name> containers in foreground
-	sudo mkdir -p ${VOLUME_FILE}/mariadb
-	sudo mkdir -p ${VOLUME_FILE}/wordpress
+# sudo mkdir -p ${VOLUME_FILE}/mariadb
+# sudo mkdir -p ${VOLUME_FILE}/wordpress
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) up
 
 start: ## Start all or c=<name> containers in background
@@ -29,8 +29,12 @@ restart: ## Restart all or c=<name> containers
 logs: ## Show logs for all or c=<name> containers
 	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) logs --tail=100 -f $(c)
 
-clean: ## Clean all images and volumes
-	sudo rm -rf ${VOLUME_FILE}/mariadb
-	sudo rm -rf ${VOLUME_FILE}/wordpress
-	sudo $(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down -v
+clean: ## Clean all images
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down -v
+	bash ./srcs/requirements/tools/clean_all.sh
+
+fclean: ## Clean all images and volumes on all devices
+	sudo rm -rf ${VOLUME_FILE}/mariadb/*
+	sudo rm -rf ${VOLUME_FILE}/wordpress/*
+	$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) down -v
 	bash ./srcs/requirements/tools/clean_all.sh

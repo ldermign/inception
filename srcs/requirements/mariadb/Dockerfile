@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-# EXPOSE 3306
+EXPOSE 3306
 
 RUN apt-get update -y \
 	&& apt-get upgrade -y \
@@ -19,6 +19,7 @@ RUN chmod 755 -R /var/run/mysql
 COPY ./conf/50-server.cnf etc/mysql/mariadb.conf.d/50-server.cnf
 # COPY ./conf/50-server.cnf /var/run/mysql/
 
+COPY ./conf/test.sql /tmp/
 COPY ./conf/start_mysql.sh /tmp/
 RUN chmod 777 /tmp/start_mysql.sh
 
