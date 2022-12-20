@@ -42,9 +42,7 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 # RUN rm /var/www/wordpress/wp-config.php
 # add new config file
 
-# COPY tools/wp-config.php /var/www/wordpress/wp-config.php
-
-COPY tools/wp-config.php /tmp/
+COPY tools/wp-config.php /var/www/wordpress/wp-config.php
 
 COPY ./tools/set_config_wp.sh /tmp/
 
