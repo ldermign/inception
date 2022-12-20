@@ -4,8 +4,10 @@ version: '3.7'
 services:
   nginx:
     container_name: nginx
+    hostname: nginx
+    image: nginx
     networks:
-      - inception
+      - inception_volume
     env_file:
       - ./.env
     build:
@@ -19,8 +21,10 @@ services:
     restart: always
   wordpress:
     container_name: wordpress
+    hostname: wordpress
+    image: wordpress
     networks:
-      - inception
+      - inception_volume
     env_file:
       - ./.env
     build:
@@ -34,8 +38,10 @@ services:
     restart: unless-stopped
   mariadb:
     container_name: mariadb
+    hostname: mariadb
+    image: mariadb
     networks:
-      - inception
+      - inception_volume
     env_file:
       - ./.env
     build:
@@ -44,25 +50,24 @@ services:
       - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
-      # - mariadb:/data/mariadb/
     restart: unless-stopped
 
 volumes:
   wordpress:
-    driver: local
+    driver: "local"
     driver_opts:
       type: 'none'
       o: 'bind'
       device: '/home/ldermign/data/wordpress'
   mariadb:
-    driver: local
+    driver: "local"
     driver_opts:
       type: 'none'
       o: 'bind'
       device: '/home/ldermign/data/mariadb'
 
 networks:
-  inception:
+  inception_volume:
     driver: bridge
 
 

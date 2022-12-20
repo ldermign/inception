@@ -16,7 +16,7 @@ RUN mkdir -p /var/run/mysql
 RUN chmod 755 -R /var/run/mysql
 
 # RUN rm etc/mysql/mariadb.conf.d/my.cnf
-COPY ./conf/50-server.cnf etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 # COPY ./conf/50-server.cnf /var/run/mysql/
 
 # COPY ./conf/test.sql /tmp/

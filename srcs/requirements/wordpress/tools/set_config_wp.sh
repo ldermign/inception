@@ -1,14 +1,16 @@
-sleep 10
+sleep 20
 
 wp core download --path='/var/www/wordpress' --allow-root
 
 # mv /tmp/wp-config.php ./wp-config.php
-# wp config create --allow-root --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_USER_PSWD --dbhost=mariadb:3306 --path="/var/www/wordpress" --skip-ckeck
+# wp config create --allow-root --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_USER_PSWD --dbhost=mariadb:3306 --path='/var/www/wordpress' --skip-check
+
+# wp config create --allow-root --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb:3306 --path='/var/www/wordpress'
 
 wp core install --allow-root --url=${DOMAIN_NAME} --title=$TITLE --admin_user=$MYSQL_ADMIN --admin_password=$MYSQL_ADMIN_PSWD --admin_email=$EMAIL
 
 # peut etre pas car deja dans la base de donnee mariadb
-# wp user create $MYSQL_USER --role=author --user_pass=${MYSQL_USER_PSWD}
+# wp user create --allow-root $MYSQL_USER ${EMAIL} --user_pass=${MYSQL_USER_PSWD} --path='/var/www/wordpress'
 # --allow-root ??
 
 mkdir -p /run/php
