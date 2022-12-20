@@ -19,12 +19,10 @@ RUN chmod 755 -R /var/run/mysql
 COPY ./conf/50-server.cnf etc/mysql/mariadb.conf.d/50-server.cnf
 # COPY ./conf/50-server.cnf /var/run/mysql/
 
-COPY ./conf/test.sql /tmp/
+# COPY ./conf/test.sql /tmp/
 COPY ./conf/start_mysql.sh /tmp/
 RUN chmod 777 /tmp/start_mysql.sh
 
 RUN service mysql start
-
-# RUN service mysql start && mysql < /tmp/start_mysql.sql
 
 CMD ["bash", "/tmp/start_mysql.sh"]

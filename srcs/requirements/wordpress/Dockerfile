@@ -19,8 +19,6 @@ RUN cd /var/www/ && tar -xf phpMyAdmin-5.0.1-english.tar.gz && rm -rf phpMyAdmin
 # RUN cd /var/www && tar -xzf wordpress-6.0-fr_FR.tar.gz && rm wordpress-6.0-fr_FR.tar.gz
 # RUN mv phpMyAdmin-5.0.1-english phpmyadmin
 
-# set up php
-# RUN rm /etc/php/7.3/fpm/pool.d/www.conf
 COPY tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 # update & upgrade
@@ -44,9 +42,9 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 # RUN rm /var/www/wordpress/wp-config.php
 # add new config file
 
-COPY tools/wp-config.php /var/www/wordpress/wp-config.php
+# COPY tools/wp-config.php /var/www/wordpress/wp-config.php
 
-# mv wp-cli.phar /usr/local/bin/wp
+COPY tools/wp-config.php /tmp/
 
 COPY ./tools/set_config_wp.sh /tmp/
 
